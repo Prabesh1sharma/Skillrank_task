@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split PDF</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            margin-top: 40px;
+            font-size: 2rem;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 20px auto;
+            width: 50%;
+            min-width: 300px;
+        }
+
+        input, select, button {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        select {
+            min-width: 220px;
+            min-height: 160px;
+            background: #fff;
+            color: #333;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        button:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: red;
+        }
+
+    </style>
+    <script>
+        function enableSubmit() {
+            const selected = document.querySelector('select[name="selected_pages"]').selectedOptions.length;
+            document.getElementById("splitButton").disabled = selected === 0;
+        }
+    </script>
+</head>
+<body>
+    <h2>Split PDF</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="upload">
+        <label>Upload PDF:</label><br>
+        <input type="file" name="pdf_file" accept=".pdf" required>
+        <br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if num_pages %}
+        <h3>Total Pages: {{ num_pages }}</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="split">
+            <label>Select pages to extract (hold Ctrl/Cmd to select multiple):</label><br>
+            <select name="selected_pages" multiple required onchange="enableSubmit()">
+                {% for i in pages %}
+                    <option value="{{ i }}">Page {{ i }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit" id="splitButton" disabled>Split and Download PDF</button>
+        </form>
+    {% endif %}
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDFs</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            margin-top: 40px;
+            font-size: 2rem;
+        }
+
+        form {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 20px auto;
+            width: 50%;
+            min-width: 300px;
+        }
+
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h2>Merge PDFs</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Upload PDFs:</label><br>
+        <input type="file" name="pdf_files" multiple required><br><br>
+        <button type="submit">Merge PDFs</button>
+    </form>
+</body>
+</html>
