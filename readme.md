@@ -5,6 +5,7 @@ git clone "https://github.com/Prabesh1sharma/Skillrank_task.git"
 cd DocumentQA
 python manage.py runserever
 ```
+`Before running the server set up  groq api key in .env`
 # PDF Splitter and Merger Installation
 Clone the repo and
 ```
